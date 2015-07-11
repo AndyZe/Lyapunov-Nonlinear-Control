@@ -14,6 +14,9 @@ num_inputs = str2num( get(handles.Num_Inputs_Input,'String') );
 global stiff_system
 stiff_system = get(handles.Stiff_System_Input,'Value');
 
+global default_deriv_calc
+default_deriv_calc = get(handles.Partial_Derivative_Input,'Value');
+
 global target_x
 target_x = get(handles.x_Target_Input,'String');
 

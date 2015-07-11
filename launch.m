@@ -23,7 +23,7 @@ function varargout = launch(varargin)
 
 % Edit the above text to modify the response to help launch
 
-% Last Modified by GUIDE v2.5 02-Nov-2014 20:06:04
+% Last Modified by GUIDE v2.5 11-Jul-2015 11:09:22
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -62,10 +62,6 @@ guidata(hObject, handles);
 
 % UIWAIT makes launch wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
-
-im = imread('ATLAS.jpg');
-image(im);
-axis off;
 
 
 % --- Outputs from this function are returned to the command line.
@@ -572,3 +568,21 @@ model_filename = model_filename(1:end-2);
 
 set(handles.Browse_For_Model, 'String', model_filename);
 cd ..
+
+
+% --- Executes on button press in partial_derivative_question.
+function partial_derivative_question_Callback(hObject, eventdata, handles)
+% hObject    handle to partial_derivative_question (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+h = msgbox('Changes how the code numerically calculates partial derivatives. The default method is faster, but it is not good for integrator systems.');
+
+
+% --- Executes on button press in Partial_Derivative_Input.
+function Partial_Derivative_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to Partial_Derivative_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of Partial_Derivative_Input

@@ -1,4 +1,4 @@
-function dx = plant_14(t,x)
+function dx = plant_bishop_rel_vel(t,x)
 
 global num_states num_inputs
 
@@ -15,10 +15,10 @@ u = x(num_states+1 : num_states+num_inputs);
 
 % Define the system here:
 
-% Third order - simple test
-dx = [u;
-     u;
-     u];
+% Third order
+dx = [ 100*x(2);% Emphasize the first state
+     x(3);
+     -10*x(2)-(16/100)*x(1)+u];
 
 
 % Append zeros for the inputs so vector lengths match

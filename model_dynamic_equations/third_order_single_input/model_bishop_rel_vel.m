@@ -1,10 +1,9 @@
-function dx = model_01(t,x,u)
+function dx = model_bishop_rel_vel(t,x,u)
 
 
 global num_inputs num_states
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% dx: Returns the time derivatives of the state variables, x-dot.
 
 % Do not modify anything in this top section.
 
@@ -20,5 +19,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Temperature change
-dx = -x+u;
+% Third order
+dx(1) = 100*x(2); % Emphasize the first state
+dx(2) = x(3);
+dx(3) = -10*x(2)-(16/100)*x(1)+u;
