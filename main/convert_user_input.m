@@ -40,6 +40,9 @@ global plant_file model_file
 plant_file = get(handles.Browse_For_Plant,'String');
 model_file = get(handles.Browse_For_Model,'String');
 
+global switching_threshold
+switching_threshold = str2num( get(handles.Switching_Threshold_Input,'String') );
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Error checking
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

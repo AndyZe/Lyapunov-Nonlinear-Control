@@ -9,6 +9,7 @@ global num_inputs num_states
 global delta_f_at_u_0 delta_dx_dot_du
 global adapt_saturation adapt
 global plant_file target_x target_history
+global switching_threshold
 
 
 % Record the target for plotting later.
@@ -125,10 +126,9 @@ else % We're past the first epoch, go normally
     % Find the largest |D|
     % It will be the base for the u_i calculations.
     % If all D's are ~0, use V2.
-    [M,max_D_index] = max(abs(D));
+    [M,max_D_index] = max(abs(D));    
     
-    
-    if M > 0.1   % Use V1
+    if M > switching_threshold    %0.001   % Use V1
         %u = (V_dot_target-sum(P))/sum(D);
         
         P= (x(epoch,:)-target_history(epoch,:)).*f_at_u_0(1:num_states); % x_i*x_i_dot

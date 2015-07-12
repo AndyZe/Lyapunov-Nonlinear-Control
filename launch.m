@@ -23,7 +23,7 @@ function varargout = launch(varargin)
 
 % Edit the above text to modify the response to help launch
 
-% Last Modified by GUIDE v2.5 11-Jul-2015 11:09:22
+% Last Modified by GUIDE v2.5 11-Jul-2015 20:02:15
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -586,3 +586,35 @@ function Partial_Derivative_Input_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of Partial_Derivative_Input
+
+
+% --- Executes on button press in pushbutton24.
+function pushbutton24_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton24 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+h = msgbox('Determines how often the alternative Lyapunov function should be used.');
+
+
+
+function Switching_Threshold_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to Switching_Threshold_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of Switching_Threshold_Input as text
+%        str2double(get(hObject,'String')) returns contents of Switching_Threshold_Input as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function Switching_Threshold_Input_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Switching_Threshold_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
