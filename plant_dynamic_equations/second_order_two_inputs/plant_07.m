@@ -9,15 +9,18 @@ global num_states num_inputs
 % Separate the control effort variables to make it easier for the user
 % to type in the equations
 
-u = x(num_states+1 : num_states+num_inputs);
+x1 = x(1,:);
+x2 = x(2,:);
+u1 = x(3,:);
+u2 = x(4,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
 
 % Van der Pol oscillator #2
-dx = [ x(2)+u(2);
--x(1)+(1-x(1)^2).*x(2)+u(1)];
+dx = [ x2+u2;
+-x1+(1-x1^2).*x2+u1];
 
 % Append zeros for the inputs so vector lengths match
 for i=1:num_inputs

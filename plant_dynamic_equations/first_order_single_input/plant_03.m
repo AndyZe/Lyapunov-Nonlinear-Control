@@ -9,7 +9,7 @@ global num_states num_inputs
 % Separate the control effort variables to make it easier for the user
 % to type in the equations
 
-u = x(num_states+1 : num_states+num_inputs);
+u1 = x(2,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -17,7 +17,7 @@ u = x(num_states+1 : num_states+num_inputs);
 
 % Academic first order, non-autonomous
 % Does well with adapt_sat=10
-dx = 1+sin(t)*u;
+dx = 1+sin(t)*u1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

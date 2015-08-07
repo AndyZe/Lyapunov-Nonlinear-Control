@@ -6,17 +6,18 @@ global num_states num_inputs
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Separate the control effort variables to make it easier for the user
+% Separate variables to make it easier for the user
 % to type in the equations
 
-u = x(num_states+1 : num_states+num_inputs);
+x1 = x(1,:);
+u1 = x(2,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
 
 % Temperature change
-dx(1) = -x(1)+u; % -x+u
+dx(1) = -x1+u1; % -x+u
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

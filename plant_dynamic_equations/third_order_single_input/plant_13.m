@@ -9,16 +9,20 @@ global num_states num_inputs
 % Separate the control effort variables to make it easier for the user
 % to type in the equations
 
-u = x(num_states+1 : num_states+num_inputs);
+x1 = x(1,:);
+x2 = x(2,:);
+x3 = x(3,:);
+
+u1 = x(4,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
 
 % Third order - Power system transient stability
-dx = [ x(2);
-     1-x(3)*sin(x(1))+0.5*sin(x(1))*cos(x(1));
-     1-0.5*x(3)+cos(x(1))+u(1)];
+dx = [ x2;
+     1-x3*sin(x1)+0.5*sin(x1)*cos(x1);
+     1-0.5*x3+cos(x1)+u1];
 
 
 % Append zeros for the inputs so vector lengths match

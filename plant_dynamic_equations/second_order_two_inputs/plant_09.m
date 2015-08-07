@@ -9,7 +9,10 @@ global num_states num_inputs
 % Separate the control effort variables to make it easier for the user
 % to type in the equations
 
-u = x(num_states+1 : num_states+num_inputs);
+x1 = x(1,:);
+x2 = x(2,:);
+u1 = x(3,:);
+u2 = x(4,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -17,9 +20,9 @@ u = x(num_states+1 : num_states+num_inputs);
 
 % Wong, 1998
 % car-pole inverted pendulum
-dx = [ x(2)+u(2);
-    (9.8*sin(x(1))-0.025*x(2)^2*sin(2*x(1))-0.1*cos(x(1))*u(1))/...
-    ( (2/3)-0.1*cos(x(1))^2)];
+dx = [ x2+u2;
+    (9.8*sin(x1)-0.025*x2^2*sin(2*x1)-0.1*cos(x1)*u1)/...
+    ( (2/3)-0.1*cos(x1)^2)];
 
 % Append zeros for the inputs so vector lengths match
 for i=1:num_inputs
