@@ -30,18 +30,15 @@ u_max = str2num(get(handles.Max_Saturation_Input,'String'));
 global V_dot_target_initial
 V_dot_target_initial = str2num(get(handles.V_Dot_Input,'String'));
 
-global adapt_saturation
-adapt_saturation =  str2num(get(handles.Adapt_Saturation_Input,'String'));
-
-global adapt
-adapt = get(handles.Adapt_Input,'Value');
-
 global plant_file model_file
 plant_file = get(handles.Browse_For_Plant,'String');
 model_file = get(handles.Browse_For_Model,'String');
 
 global switching_threshold
 switching_threshold = str2num( get(handles.Switching_Threshold_Input,'String') );
+
+global gamma % V2 step location
+gamma = str2num( get(handles.Gamma_Input,'String') );
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Error checking

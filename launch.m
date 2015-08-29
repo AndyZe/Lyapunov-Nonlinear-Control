@@ -23,7 +23,7 @@ function varargout = launch(varargin)
 
 % Edit the above text to modify the response to help launch
 
-% Last Modified by GUIDE v2.5 11-Jul-2015 20:02:15
+% Last Modified by GUIDE v2.5 29-Aug-2015 12:41:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -106,14 +106,6 @@ function run_question_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 h = msgbox('Run the simulation after all options have been configured.');
-
-
-% --- Executes on button press in beta_question.
-function beta_question_Callback(hObject, eventdata, handles)
-% hObject    handle to beta_question (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-h = msgbox('These options are still under development. Their performance is not 100% predictable.');
 
 
 % --- Executes on button press in start_time_question.
@@ -475,27 +467,27 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in Adapt_Saturation_Question.
-function Adapt_Saturation_Question_Callback(hObject, eventdata, handles)
-% hObject    handle to Adapt_Saturation_Question (see GCBO)
+% --- Executes on button press in Gamma_Question.
+function Gamma_Question_Callback(hObject, eventdata, handles)
+% hObject    handle to Gamma_Question (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 h = msgbox('Set saturation limits for how quickly the controller adapts.');
 
 
 
-function Adapt_Saturation_Input_Callback(hObject, eventdata, handles)
-% hObject    handle to Adapt_Saturation_Input (see GCBO)
+function Gamma_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to Gamma_Input (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of Adapt_Saturation_Input as text
-%        str2double(get(hObject,'String')) returns contents of Adapt_Saturation_Input as a double
+% Hints: get(hObject,'String') returns contents of Gamma_Input as text
+%        str2double(get(hObject,'String')) returns contents of Gamma_Input as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function Adapt_Saturation_Input_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to Adapt_Saturation_Input (see GCBO)
+function Gamma_Input_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Gamma_Input (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 

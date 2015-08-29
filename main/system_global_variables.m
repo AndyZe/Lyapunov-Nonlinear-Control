@@ -51,14 +51,6 @@ global V_dot_target V_dot_target_initial
 % Will decrease as we get closer to origin
 V_dot_target = V_dot_target_initial;
 
-global adapt_switch % Switch between the 4 adapted quantities
-adapt_switch = 0;
-
-% Adaptation parameters
-global delta_f_at_u_0 delta_dx_dot_du;
-delta_f_at_u_0 = zeros(num_states,1);
-delta_dx_dot_du = zeros(num_states,1);
-
 % The history of targets
 global target_history
 target_history = NaN(max_sim_epochs,num_states);
