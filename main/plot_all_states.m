@@ -1,10 +1,11 @@
 global num_states x target_history t
 
 % Can plot up to 7 states
-state_styles = {'bx';'rx';'gx';'cx';'mx';'yx';'kx'};
-target_styles = {'b-';'r-';'g-';'c-';'m-';'y-';'k-'};
+state_styles = {'bo';'ro';'go';'co';'mo';'yo';'ko'};
+target_styles = {'b.';'r.';'g.';'c.';'m.';'y.';'k.'};
 
 figure
+set(gcf,'color','w')
 hold on;
 title('States and Setpoints')
 xlabel('Time')
@@ -12,8 +13,8 @@ ylabel('State/Setpoint')
      
 if num_states <= 7
     for i=1:num_states
-        plot( t, x(:,i), state_styles{i});
-        plot( t, target_history(:,i), target_styles{i});
+        plot( t, x(:,i), state_styles{i},'markerSize',2);
+        plot( t, target_history(:,i), target_styles{i},'markerSize',2);
     end
 end
 

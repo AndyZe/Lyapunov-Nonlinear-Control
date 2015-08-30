@@ -36,11 +36,11 @@ end
 
 if num_states == 1
     % Starting point
-    plot(0,x_traj(1),'kx','markerSize',20)
+    plot(0,x_traj(1,1),'kx','markerSize',10)
     
     legend('Start')
     
-    plot(time,x_traj,'b');
+    plot(time,x_traj(:,1),'bo','markerSize',2);
     
     xlabel('Time')
     ylabel('x_1')
@@ -50,7 +50,7 @@ end
 if num_states >= 2
 
     % Plot starting point
-    plot(x_traj(1,1),x_traj(1,2),'kx','markerSize',20);
+    plot(x_traj(1,1),x_traj(1,2),'kx','markerSize',10);
     
     % Plot target for each epoch
     if num_states >= 2
@@ -58,13 +58,13 @@ if num_states >= 2
         for t = start_time : delta_t : stop_time
             epoch = 1; % Always look at t(1)
             target=eval(temp_targets);
-            plot(target(1),target(2),'rx','markerSize',20);
+            plot(target(1),target(2),'rx','markerSize',10);
         end
     end
     legend('Start','Target');
     
     % Plot trajectory
-    plot( x_traj(:,1), x_traj(:,2) );
+    plot( x_traj(:,1), x_traj(:,2), 'bo', 'markerSize',2 );
     
     xlabel('x_1')
     ylabel('x_2')
