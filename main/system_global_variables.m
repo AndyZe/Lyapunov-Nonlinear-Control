@@ -8,7 +8,7 @@ global num_inputs num_states x_IC start_time stop_time delta_t
 
 % Preallocate
 global max_sim_epochs
-max_sim_epochs = 100+(stop_time-start_time)/delta_t;
+max_sim_epochs = round(100+(stop_time-start_time)/delta_t);
 
 global epoch % What epoch are we on?
 epoch=1;
