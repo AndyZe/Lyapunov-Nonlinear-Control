@@ -13,8 +13,8 @@ ylabel('State/Setpoint')
      
 if num_states <= 7
     for i=1:num_states
-        plot( t, x(:,i), state_styles{i},'markerSize',2);
-        plot( t, target_history(:,i), target_styles{i},'markerSize',2);
+        plot( t, x(:,i)/1000, state_styles{i},'markerSize',2);
+        plot( t, target_history(:,i)/1000, target_styles{i},'markerSize',2);
     end
 end
 

@@ -1,4 +1,4 @@
-function dx = plant_04(t,x)
+function dx = plant_u_3rd(t,x)
 
 global num_states num_inputs
 
@@ -6,20 +6,18 @@ global num_states num_inputs
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Separate the control effort variables to make it easier for the user
+% Separate variables to make it easier for the user
 % to type in the equations
 
 x1 = x(1,:);
-x2 = x(2,:);
-u1 = x(3,:);
+u1 = x(2,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
 
-% Adaptation helps with this one
-dx = [ 1000*x2;
- u1-9.81*sin(x1)];
+% Temperature change
+dx(1) = x1*u1^3;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

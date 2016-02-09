@@ -1,9 +1,10 @@
-function dx = model_07(t,x,u)
+function dx = model_u_3rd(t,x,u)
 
 
 global num_inputs num_states
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% dx: Returns the time derivatives of the state variables, x-dot.
 
 % Do not modify anything in this top section.
 
@@ -19,6 +20,5 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Van der Pol oscillator #2
-dx(1)= x(2)+u(2);
-dx(2)= -x(1)+(1-x(1)^2)*x(2)+u(1);
+% Temperature change
+dx = x*u^3;

@@ -433,7 +433,7 @@ function V_Dot_Question_Callback(hObject, eventdata, handles)
 % hObject    handle to V_Dot_Question (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-h = msgbox('How quickly should the controller push towards the target location? A more negative number generally performs better. It must be a negative number. It is V_dot_target_initial.');
+h = msgbox('How quickly should the controller push towards the target location? A more negative number generally performs better. It must be a negative number. It is -20log(V_dot_target_initial).');
 
 
 % --- Executes on button press in Input_Saturation_Question.

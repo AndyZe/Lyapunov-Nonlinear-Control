@@ -1,4 +1,4 @@
-function dx = model_04(t,x,u)
+function dx = model_comp_with_3PID(t,x,u)
 
 
 global num_inputs num_states
@@ -19,5 +19,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dx(1) = 1000*x(2);
-dx(2) = u-9.81*sin(x(1));
+% Third order
+dx(1) = 100000*x(2);
+dx(2) = x(3);
+dx(3) = 0.5*(-(1/100000)*x(1)-x(2)-x(3)+u);

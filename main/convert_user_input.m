@@ -28,7 +28,7 @@ u_min = str2num(get(handles.Min_Saturation_Input,'String'));
 u_max = str2num(get(handles.Max_Saturation_Input,'String'));
 
 global V_dot_target_initial
-V_dot_target_initial = str2num(get(handles.V_Dot_Input,'String'));
+V_dot_target_initial = -10^(str2num(get(handles.V_Dot_Input,'String'))/-20);
 
 global plant_file model_file
 plant_file = get(handles.Browse_For_Plant,'String');

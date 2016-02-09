@@ -1,4 +1,4 @@
-function dx = plant_04(t,x)
+function dx = plant_comp_with_3PID(t,x)
 
 global num_states num_inputs
 
@@ -11,17 +11,19 @@ global num_states num_inputs
 
 x1 = x(1,:);
 x2 = x(2,:);
-u1 = x(3,:);
+x3 = x(3,:);
+
+u1 = x(4,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
 
-% Adaptation helps with this one
-dx = [ 1000*x2;
- u1-9.81*sin(x1)];
+% Third order
+dx = [ 100000*x2;
+     x3;
+     0.5*(-(1/100000)*x1-x2-x3+u1)];
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Append zeros for the inputs so vector lengths match
 for i=1:num_inputs
