@@ -23,7 +23,7 @@ function varargout = launch(varargin)
 
 % Edit the above text to modify the response to help launch
 
-% Last Modified by GUIDE v2.5 29-Aug-2015 12:41:17
+% Last Modified by GUIDE v2.5 09-Feb-2016 14:24:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -580,9 +580,9 @@ function Partial_Derivative_Input_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of Partial_Derivative_Input
 
 
-% --- Executes on button press in pushbutton24.
-function pushbutton24_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton24 (see GCBO)
+% --- Executes on button press in switching_threshold_question.
+function switching_threshold_question_Callback(hObject, eventdata, handles)
+% hObject    handle to switching_threshold_question (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -602,6 +602,47 @@ function Switching_Threshold_Input_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function Switching_Threshold_Input_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to Switching_Threshold_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in LPF_Input.
+function LPF_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to LPF_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of LPF_Input
+
+
+% --- Executes on button press in LPF_Question.
+function LPF_Question_Callback(hObject, eventdata, handles)
+% hObject    handle to LPF_Question (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+h = msgbox('Apply a Low Pass Filter to smooth the calculated control effort.');
+
+
+
+function Cutoff_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to Cutoff_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of Cutoff_Input as text
+%        str2double(get(hObject,'String')) returns contents of Cutoff_Input as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function Cutoff_Input_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Cutoff_Input (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 

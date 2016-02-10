@@ -40,6 +40,14 @@ switching_threshold = str2num( get(handles.Switching_Threshold_Input,'String') )
 global gamma % V2 step location
 gamma = str2num( get(handles.Gamma_Input,'String') );
 
+global LPF % Apply a LPF if ==1
+LPF = get(handles.LPF_Input,'Value');
+
+% Make the c calculation for the filter
+cutoff_freq = str2num( get(handles.Cutoff_Input,'String') );
+global c 
+c = cot( cutoff_freq*6.2832*delta_t/2 );
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Error checking
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -140,7 +140,7 @@ else % We're past the first epoch, go normally
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Check control effort saturation on u
+% Check control effort saturation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for i=1: num_inputs
@@ -159,31 +159,12 @@ if LPF == 1 % if user requested it
     % For each control effort, u
     for i=1 : num_inputs
         if epoch>2  % Let some data build up so we don't get (-) indices
-            
-            filtered_u(epoch,i) = (1/(1+c^2+1.414*c))*(...
-                u(epoch-2,i)+2*u(epoch-1,i)+u(epoch,i)-...
-                (c^2-1.414*c+1)*filtered_u(epoch-2,i)-...
-                (-2*c^2+2)*filtered_u(epoch-1,i)...
-                );
-        else
-            filtered_u(epoch,i) = u(epoch, i);           
+            filtered_u(epoch,i) = (1/(1+c^2+1.414*c))*(u(epoch-2,i)+2*u(epoch-1,i)+u(epoch,i)-(c^2-1.414*c+1)*filtered_u(epoch-2,1)-);
         end
     end
 else % No LPF
     for i=1 : num_inputs
         filtered_u(epoch,i) = u(epoch, i);
-    end
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Check control effort saturation on filtered_u
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-for i=1: num_inputs
-    if filtered_u(epoch,i) > u_max(i)
-        filtered_u(epoch,i) = u_max(i);
-    elseif filtered_u(epoch,i) < u_min(i)
-        filtered_u(epoch,i) = u_min(i);
     end
 end
 

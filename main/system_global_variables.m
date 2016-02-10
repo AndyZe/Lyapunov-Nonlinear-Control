@@ -35,6 +35,9 @@ switched_Lyap=NaN(max_sim_epochs,2); %Preallocate
 global u        % Control effort
 u=zeros(max_sim_epochs,num_inputs);
 
+global filtered_u % Filtered control effort
+filtered_u = zeros(max_sim_epochs, num_inputs);
+
 global V  % Store Lyapunov values
 V=zeros(max_sim_epochs,1);
 V(1)=0;

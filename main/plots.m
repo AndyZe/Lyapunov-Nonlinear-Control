@@ -7,6 +7,7 @@ function plots
 global x target_history epoch t u
 global switched_Lyap num_states V
 global u_max u_min
+global LPF filtered_u
 
 subplot(2,2,2); axis square; hold on
 set(gcf,'color','w')
@@ -64,6 +65,11 @@ title('Control Effort u_1')
 xlabel('Time')
 ylabel('u_1')
 plot(t(1:epoch-1),u(1:epoch-1),'bo','markerSize',2)
+if LPF==1
+    hold on;
+    plot(t(1:epoch-1),filtered_u(1:epoch-1),'ro','markerSize',2)
+end
 ylim([1.1*u_min(1) 1.1*u_max(1)])
+legend('Unfiltered Control Effort', 'Filtered Control Effort')
 
 plot_all_states
