@@ -192,9 +192,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 t_span= [t(epoch) t(epoch)+delta_t];
-options=odeset('RelTol',1e-1,'AbsTol',1e-4,'NormControl','on',...
+options=odeset('RelTol',1e-2,'AbsTol',1e-4,'NormControl','on',...
     'Vectorized','on');
-
 
 if stiff_system
     [time, x_traj] = ode23s( str2func(plant_file), t_span,...
