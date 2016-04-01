@@ -23,7 +23,7 @@ function varargout = launch(varargin)
 
 % Edit the above text to modify the response to help launch
 
-% Last Modified by GUIDE v2.5 09-Feb-2016 14:24:24
+% Last Modified by GUIDE v2.5 01-Apr-2016 10:02:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -568,16 +568,16 @@ function partial_derivative_question_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-h = msgbox('Changes how the code numerically calculates partial derivatives. The default method is faster, but it is not good for integrator systems.');
+h = msgbox('The default controller performs poorly on underactuated (e.g. integrator) systems. Use the alternative method to focus only on the first state, x1.');
 
 
-% --- Executes on button press in Partial_Derivative_Input.
-function Partial_Derivative_Input_Callback(hObject, eventdata, handles)
-% hObject    handle to Partial_Derivative_Input (see GCBO)
+% --- Executes on button press in Underactuated_Input.
+function Underactuated_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to Underactuated_Input (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hint: get(hObject,'Value') returns toggle state of Partial_Derivative_Input
+% Hint: get(hObject,'Value') returns toggle state of Underactuated_Input
 
 
 % --- Executes on button press in switching_threshold_question.

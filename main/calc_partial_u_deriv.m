@@ -8,7 +8,7 @@ function calc_partial_u_deriv
 global x t epoch num_inputs num_states
 global dx_dot_du f_at_u_0
 global model_file delta_t
-global default_deriv_calc %Use the standard method or the method for integrators?
+global default_fully_actuated %Use the standard method or the method for integrators/underactuated systems?
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,7 +24,7 @@ zero_input = zeros(1,num_inputs);
 
 x_traj = eval( strcat(model_file, '(t(epoch), x(epoch,:), zero_input)') );
 
-if default_deriv_calc== 0 % Use the partial derivative calculation method for integrators
+if default_fully_actuated== 0 % Use the partial derivative calculation method for integrators
     % If there's only 1 state, the first x_traj calc is enough
     % Don't worry about integrators
     if num_states>1
@@ -69,7 +69,7 @@ for i=1: num_inputs
     
     x_traj = eval( strcat(model_file, '(t(epoch), x(epoch,:), delta_u )' ));
    
-    if default_deriv_calc== 0 % Use the partial derivative calculation method for integrators
+    if default_fully_actuated== 0 % Use the partial derivative calculation method for integrators
         % If there's only 1 state, the first x_traj calc is enough
         % Don't worry about integrators
         if num_states>1

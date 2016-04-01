@@ -12,7 +12,7 @@ global gamma % V2 step location
 global LPF % Apply LPF if ==1
 global filtered_u
 global c % LPF parameter
-
+global default_fully_actuated %Use the standard method or the method for integrators/underactuated systems?
 
 % Record the target for plotting later.
 target_history(epoch,:) = eval(target_x);
@@ -22,6 +22,7 @@ target_history(epoch,:) = eval(target_x);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 calc_partial_u_deriv % dx_dot_du is calculated
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Calc D's: the sum of xi*dfi/du for each u
@@ -57,12 +58,16 @@ else % We're past the first epoch, go normally
     % Find the largest |D|
     % It will be the base for the u_i calculations.
     % If all D's are ~0, use V2.
-    [M,max_D_index] = max(abs(D));    
+    [M,max_D_index] = max(abs(D));
     
     if M > switching_threshold    %0.001   % Use V1
         %u = (V_dot_target-sum(P))/sum(D);
         
-        P= (x(epoch,:)-target_history(epoch,:)).*f_at_u_0(1:num_states); % x_i*x_i_dot
+        if (default_fully_actuated) % Normal calc., using all states
+            P= (x(epoch,:)-target_history(epoch,:)).*f_at_u_0(1:num_states); % x_i*x_i_dot
+        else % Only concerned with x1
+            P= (x(epoch,1)-target_history(epoch,1)).*f_at_u_0(1); % x_1*x_1_dot
+        end
         
         % One input -- simple formula
         if num_inputs == 1
@@ -110,7 +115,11 @@ else % We're past the first epoch, go normally
             ((x(epoch,1)-target_history(epoch,1))^-1*tanh(gamma)+...
             (x(epoch,1)-target_history(epoch,1))*sech(gamma)^2);
         
-        P_star = dV2_dx.*f_at_u_0(1:num_states);
+        if (default_fully_actuated) % Normal calc., using all states
+            P_star = dV2_dx.*f_at_u_0(1:num_states);
+        else  % only concerned with x1
+            P_star = dV2_dx(1)*f_at_u_0(1);
+        end
         
         D_star = zeros(num_inputs,1);
         %D_star(i) = dV2_dx(1)*dx_dot_du(1,1)+dV2_dx(2)*dx_dot_du(1,2);
@@ -166,7 +175,7 @@ if LPF == 1 % if user requested it
                 (-2*c^2+2)*filtered_u(epoch-1,i)...
                 );
         else
-            filtered_u(epoch,i) = u(epoch, i);           
+            filtered_u(epoch,i) = u(epoch, i);
         end
     end
 else % No LPF
