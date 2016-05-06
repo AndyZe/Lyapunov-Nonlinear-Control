@@ -13,6 +13,7 @@ global LPF % Apply LPF if ==1
 global filtered_u
 global c % LPF parameter
 global default_fully_actuated %Use the standard method or the method for integrators/underactuated systems?
+global integral_gain
 
 % Record the target for plotting later.
 target_history(epoch,:) = eval(target_x);
@@ -43,7 +44,7 @@ end
 % Adjust the Lyapunov damping
 % Less damping as we get closer to origin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-V_dot_target = (V(epoch)/V(1))^2*V_dot_target_initial;
+V_dot_target = (V(epoch)/V(1))^2*V_dot_target_initial - integral_gain*V(epoch);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Calc. u to force V_dot<0 at each grid point.
@@ -60,7 +61,7 @@ else % We're past the first epoch, go normally
     % If all D's are ~0, use V2.
     [M,max_D_index] = max(abs(D));
     
-    if M > switching_threshold    %0.001   % Use V1
+    if M > switching_threshold    % Use V1
         %u = (V_dot_target-sum(P))/sum(D);
         
         if (default_fully_actuated) % Normal calc., using all states

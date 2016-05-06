@@ -34,7 +34,7 @@ if default_fully_actuated== 0 % Use the partial derivative calculation method fo
         
         temp_t = t(epoch)+delta_t;
         
-        % Run howver many times more for the control effort to trickle thru
+        % Run however many times more for the control effort to trickle thru
         % to every state.
         if (num_states>=3)
             for i=1 : num_states-2

@@ -48,12 +48,20 @@ cutoff_freq = str2num( get(handles.Cutoff_Input,'String') );
 global c 
 c = cot( cutoff_freq*6.2832*delta_t/2 );
 
+% Apply integral action with this gain
+global integral_gain
+integral_gain = str2num( get(handles.Integral_Input,'String') );
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Error checking
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if (num_inputs<0 || num_states<1)
     error('Must have at least 1 state and 0 inputs.')
+end
+
+if (integral_gain<0)
+    error('The integral gain must be >=0.')
 end
 
 % Some temporary parameters so we can evaluate if target_x is

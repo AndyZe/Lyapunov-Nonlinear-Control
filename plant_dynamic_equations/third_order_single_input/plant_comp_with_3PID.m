@@ -20,9 +20,9 @@ u1 = x(4,:);
 % Define the system here:
 
 % Third order
-dx = [ 100000*x2;
+dx = [ 1000000*x2;
      x3;
-     0.5*(-(1/100000)*x1-x2-x3+u1)];
+     0.5*(-(1/1000000)*x1-x2-x3+u1)];
 
 
 % Append zeros for the inputs so vector lengths match
