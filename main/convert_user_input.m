@@ -14,14 +14,14 @@ num_inputs = str2num( get(handles.Num_Inputs_Input,'String') );
 global stiff_system
 stiff_system = get(handles.Stiff_System_Input,'Value');
 
-global default_fully_actuated
-default_fully_actuated = get(handles.Underactuated_Input,'Value');
-
 global target_x
 target_x = get(handles.x_Target_Input,'String');
 
 global x_IC
-x_IC = str2num( get(handles.IC_Input,'String') );
+x_IC = str2num( get(handles.x_IC_Input,'String') );
+
+global y_IC
+y_IC = str2num(get(handles.y_IC_Input,'String') );
 
 global u_max u_min
 u_min = str2num(get(handles.Min_Saturation_Input,'String'));
@@ -34,10 +34,7 @@ global plant_file model_file
 plant_file = get(handles.Browse_For_Plant,'String');
 model_file = get(handles.Browse_For_Model,'String');
 
-global switching_threshold
-switching_threshold = str2num( get(handles.Switching_Threshold_Input,'String') );
-
-global gamma % V2 step location
+global gamma % V2 parameter
 gamma = str2num( get(handles.Gamma_Input,'String') );
 
 global LPF % Apply a LPF if ==1
@@ -62,14 +59,6 @@ end
 
 if (integral_gain<0)
     error('The integral gain must be >=0.')
-end
-
-% Some temporary parameters so we can evaluate if target_x is
-% the correct length
-epoch=1;
-t=0;
-if numel( eval(target_x) ) ~= num_states
-    error('The target vector length must match #states.')
 end
 
 if numel(x_IC) ~= num_states

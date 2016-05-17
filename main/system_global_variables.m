@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Previously defined from user input
-global num_inputs num_states x_IC start_time stop_time delta_t
+global num_inputs num_states x_IC y_IC start_time stop_time delta_t
 
 % Preallocate
 global max_sim_epochs
@@ -21,6 +21,13 @@ for i=1:num_states
     x(1,i)=x_IC(i);
     x(2,i)=x_IC(i);
 end
+
+global y % Current coordinates of the state variables
+y=zeros(max_sim_epochs,1); % Preallocate
+
+% Initialize the first two rows to ICs
+y(1) = y_IC;
+y(2) = y_IC;
 
 global t
 t=zeros(max_sim_epochs,1); % Preallocate
