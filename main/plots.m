@@ -30,7 +30,7 @@ subplot(2,2,3); axis square; hold on
 title('Lyapunov Value')
 plot(t(2:epoch),V(2:epoch),'bo','markerSize',2)
 xlabel('Time')
-ylabel('Error, V_1(x)')
+ylabel('Error, V_1(y)')
 
 % Plot u
 subplot(2,2,4); axis square; hold on

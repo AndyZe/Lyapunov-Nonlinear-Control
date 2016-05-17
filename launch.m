@@ -23,7 +23,7 @@ function varargout = launch(varargin)
 
 % Edit the above text to modify the response to help launch
 
-% Last Modified by GUIDE v2.5 06-May-2016 14:28:01
+% Last Modified by GUIDE v2.5 17-May-2016 17:11:55
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -320,8 +320,8 @@ h = msgbox('Where do you want to regulate the system to? This can be a static co
 
 
 % --- Executes during object creation, after setting all properties.
-function IC_Question_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to IC_Question (see GCBO)
+function x_IC_Question_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to x_IC_Question (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -332,24 +332,24 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in IC_Question.
-function IC_Question_Callback(hObject, eventdata, handles)
-% hObject    handle to IC_Question (see GCBO)
+% --- Executes on button press in x_IC_Question.
+function x_IC_Question_Callback(hObject, eventdata, handles)
+% hObject    handle to x_IC_Question (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-h = msgbox('Where is the system in state-space, initially?');
+h = msgbox('State the initial x conditions.');
 
 
-function IC_Input_Callback(hObject, eventdata, handles)
-% hObject    handle to IC_Input (see GCBO)
+function x_IC_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to x_IC_Input (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of IC_Input as text
-%        str2double(get(hObject,'String')) returns contents of IC_Input as a double
+% Hints: get(hObject,'String') returns contents of x_IC_Input as text
+%        str2double(get(hObject,'String')) returns contents of x_IC_Input as a double
 
 % --- Executes during object creation, after setting all properties.
-function IC_Input_CreateFcn(hObject, eventdata, handles)
+function x_IC_Input_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to Stop_Time_Input (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -683,3 +683,34 @@ function Integral_Input_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function y_IC_Input_Callback(hObject, eventdata, handles)
+% hObject    handle to y_IC_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of y_IC_Input as text
+%        str2double(get(hObject,'String')) returns contents of y_IC_Input as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function y_IC_Input_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to y_IC_Input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in y_IC_Question.
+function y_IC_Question_Callback(hObject, eventdata, handles)
+% hObject    handle to y_IC_Question (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+h = msgbox('State the initial y conditions.');
