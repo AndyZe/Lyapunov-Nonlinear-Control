@@ -9,6 +9,7 @@ global LPF % Apply LPF if ==1
 global filtered_u
 global c % LPF parameter
 global integral_gain model_file
+global gamma % parameter for V2 & V3
 
 % Record the target for plotting later.
 target_history(epoch,:) = eval(target_x);
@@ -61,30 +62,54 @@ else % We're past the first epoch, go normally
     % Calculate the Lie derivatives we will need
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    % TODO: an extensible method of making these calculations
+    % This is for Khalil, page 542
+    dh_dx = [0 1]; % 1x2
+    
+    f = [x(epoch,2); -x(epoch,1)+(1-x(epoch,1)^2)*x(epoch,2)];% 2x1
+    
+    Lf_h = dh_dx * f; % scalar
+    
+    Lg_Lf_r1_h = dh_dx * [0; 1]; % scalar
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % For convenience, put the system in normal form.
     % Again, we ignore the ROM and zero dynamics, 'z'.
     % Assume they are stable.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % zvi =    
+    % TODO: an extensible method of making these calculations
+    % This is for Khalil, page 542
+    xi = x(epoch,2);  % xi = h(x) = x2
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the Vi with the largest dVi_dot/du (V1, V2, or V3)
     % Use it for this epoch
-        % For V1:  ksi_r1*Lg_Lf_r1_h
-        % For V2:  (ksi_r+2*Beta1*ksi_1^2*ksi_r*e^V1) * Lg_Lf_r1_h
-        % For V3:  (ksi_r+2*Beta2*ksi_1^2*ksi_r*e^V1) * Lg_Lf_r1_h
+        % For V1:  xi_r*Lg_Lf_r1_h
+        % For V2:  (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
+        % For V3:  (xi_r+2*Beta2*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %dV1_dot_du = zvi(end)*
+    dV1_dot_du = xi(end)*Lg_Lf_r1_h;
     
-    %dV2_dot_du = 
+    dV2_dot_du = (xi(end)+2*gamma*xi(1)^2*xi(end)*exp(V(epoch))) * Lg_Lf_r1_h;
     
-    %dV3_dot_du = 
+    % V3 is the same as V2 except a different gamma
+    dV3_dot_du = (xi(end)+2*2*gamma*xi(1)^2*xi(end)*exp(V(epoch))) * Lg_Lf_r1_h;
+    
+    dV_dot_du = [dV1_dot_du dV2_dot_du dV3_dot_du];
         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the stabilizing u    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    if ( max(abs(dV_dot_du))==3 ) % use V3
+        u(epoch,1) = (V_dot_target - (xi(end)+2*2*gamma*xi(1)^2*xi(end)*exp(V(epoch)))*Lf_h)/...
+            dV3_dot_du;
+    elseif ( max(abs(dV_dot_du))==2 ) % use V2
+        u(epoch,1) = (V_dot_target - (xi(end)+2*2*gamma*xi(1)^2*xi(end)*exp(V(epoch)))*Lf_h)/...
+            dV2_dot_du;
+    else %use V1
+        u(epoch,1) = (V_dot_target - xi(1)*Lf_h)/dV1_dot_du;
+    end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,36 +117,30 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if LPF == 1 % if user requested it
-    % For each control effort, u
-    for i=1 : num_inputs
-        if epoch>2  % Let some data build up so we don't get (-) indices
-            
-            filtered_u(epoch,i) = (1/(1+c^2+1.414*c))*(...
-                u(epoch-2,i)+2*u(epoch-1,i)+u(epoch,i)-...
-                (c^2-1.414*c+1)*filtered_u(epoch-2,i)-...
-                (-2*c^2+2)*filtered_u(epoch-1,i)...
-                );
-        else
-            filtered_u(epoch,i) = u(epoch, i);
-        end
+    if epoch>2  % Let some data build up so we don't get (-) indices
+        
+        filtered_u(epoch) = (1/(1+c^2+1.414*c))*(...
+            u(epoch-2)+2*u(epoch-1)+u(epoch)-...
+            (c^2-1.414*c+1)*filtered_u(epoch-2)-...
+            (-2*c^2+2)*filtered_u(epoch-1)...
+            );
+    else
+        filtered_u(epoch) = u(epoch);
     end
-else % No LPF
-    for i=1 : num_inputs
-        filtered_u(epoch,i) = u(epoch, i);
-    end
+else
+    filtered_u(epoch) = u(epoch);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Check control effort saturation on filtered_u
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-for i=1: num_inputs
-    if filtered_u(epoch,i) > u_max(i)
-        filtered_u(epoch,i) = u_max(i);
-    elseif filtered_u(epoch,i) < u_min(i)
-        filtered_u(epoch,i) = u_min(i);
-    end
+if filtered_u(epoch) > u_max
+    filtered_u(epoch) = u_max;
+elseif filtered_u(epoch) < u_min
+    filtered_u(epoch) = u_min;
 end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Simulate the plant. Get a new x-position
@@ -133,10 +152,10 @@ options=odeset('RelTol',1e-2,'AbsTol',1e-4,'NormControl','on',...
 
 if stiff_system
     [time, x_traj] = ode23s( str2func(plant_file), t_span,...
-        [x(epoch,:)'; y(epoch,:)'; filtered_u(epoch,:)'], options );
+        [x(epoch,:)'; y(epoch,:)'; filtered_u(epoch)'], options );
 else
     [time, x_traj] = ode23( str2func(plant_file), t_span,...
-        [x(epoch,:)'; y(epoch,:)'; filtered_u(epoch,:)'], options );
+        [x(epoch,:)'; y(epoch,:)'; filtered_u(epoch)'], options );
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -148,7 +167,7 @@ epoch=epoch+1; % Count another epoch
 t(epoch) = time(end); % Update time for the next epoch
 
 y(epoch) = x_traj(end,num_states+1);
-V(epoch)= V(epoch)+0.5*(y(epoch)-target_history(epoch-1))^2;
+V(epoch)= 0.5*(y(epoch)-target_history(epoch-1))^2;
 
 for i=1 : num_states
     x(epoch,i) = x_traj(end,i);

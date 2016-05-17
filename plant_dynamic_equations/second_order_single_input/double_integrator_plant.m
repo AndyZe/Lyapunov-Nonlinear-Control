@@ -18,7 +18,6 @@ u1 = x(4,:);
 
 % Define the system here:
 % Khalil, page 542
-
 dx = [ x2;                  % x1_dot
  -x1+(1-x1^2)*x2+u1;        % x2_dot
  -x1+(1-x1^2)*x2+u1];       % y_dot = x2_dot
