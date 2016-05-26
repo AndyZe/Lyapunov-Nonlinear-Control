@@ -34,11 +34,10 @@ t=zeros(max_sim_epochs,1); % Preallocate
 t(1)= start_time;
 
 % Log of Lyapunov function switches
-global using_V2 using_V3
-using_V2=NaN(max_sim_epochs,2); %Preallocate
-using_V3=NaN(max_sim_epochs,2); %Preallocate
-% column 1: x1 points
-% column 2: x2 points
+global using_V1 using_V2 using_V3
+using_V1=NaN(max_sim_epochs);
+using_V2=NaN(max_sim_epochs);
+using_V3=NaN(max_sim_epochs);
 
 global u        % Control effort
 u=zeros(max_sim_epochs,num_inputs);

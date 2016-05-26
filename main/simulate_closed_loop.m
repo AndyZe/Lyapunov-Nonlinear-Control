@@ -10,7 +10,7 @@ global filtered_u
 global c % LPF parameter
 global integral_gain model_file
 global gamma % parameter for V2 & V3
-global using_V2 using_V3
+global using_V1 using_V2 using_V3
 
 % Record the target for plotting later.
 target_history(epoch,:) = eval(target_x);
@@ -106,6 +106,7 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     if ( max(abs(dV_dot_du))==1 ) % use V1
+        using_V1(epoch) = x(epoch,2);
         u(epoch,1) = (V_dot_target - xi(1)*Lf_h)/dV1_dot_du;
     elseif ( max(abs(dV_dot_du))==2 ) % use V2
         using_V2(epoch) = x(epoch,2);
