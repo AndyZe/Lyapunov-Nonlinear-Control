@@ -10,6 +10,7 @@ global filtered_u
 global c % LPF parameter
 global integral_gain model_file
 global gamma % parameter for V2 & V3
+global using_V2 using_V3
 
 % Record the target for plotting later.
 target_history(epoch,:) = eval(target_x);
@@ -53,7 +54,7 @@ else % We're past the first epoch, go normally
         x_CL = CL(1:num_states);
         y_OL = OL(num_states+1);
         y_CL = CL(num_states+1);
-
+        
         num_differentiations = num_differentiations+1;
         
         if ( y_OL ~= y_CL )
@@ -87,9 +88,9 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the Vi with the largest dVi_dot/du (V1, V2, or V3)
     % Use it for this epoch
-        % dV1_dot/du = xi_r*Lg_Lf_r1_h
-        % dV2_dot/du = (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
-        % For V3:  (xi_r+2*Beta2*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
+    % dV1_dot/du = xi_r*Lg_Lf_r1_h
+    % dV2_dot/du = (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
+    % For V3:  (xi_r+2*Beta2*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     dV1_dot_du = xi*Lg_Lf_r1_h;
     
@@ -99,19 +100,21 @@ else % We're past the first epoch, go normally
     dV3_dot_du = (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch))) * Lg_Lf_r1_h;
     
     dV_dot_du = [dV1_dot_du dV2_dot_du dV3_dot_du];
-        
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Calculate the stabilizing u    
+    % Calculate the stabilizing u
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    if ( max(abs(dV_dot_du))==3 ) % use V3
-        u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
-            dV3_dot_du;
+    if ( max(abs(dV_dot_du))==1 ) % use V1
+        u(epoch,1) = (V_dot_target - xi(1)*Lf_h)/dV1_dot_du;
     elseif ( max(abs(dV_dot_du))==2 ) % use V2
+        using_V2(epoch) = x(epoch,2);
         u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
             dV2_dot_du;
-    else %use V1
-        u(epoch,1) = (V_dot_target - xi(1)*Lf_h)/dV1_dot_du;
+    else %use V3
+        using_V3(epoch) = x(epoch,2);
+        u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
+            dV3_dot_du;
     end
 end
 

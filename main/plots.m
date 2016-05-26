@@ -1,9 +1,9 @@
 function plots
 
-global y target_history epoch t u
-global switched_Lyap V
+global y target_history epoch t
+global using_V2 using_V3 V
 global u_max u_min
-global LPF filtered_u
+global filtered_u
 
 % y - Closed Loop
 subplot(2,2,2); axis square; hold on
@@ -13,11 +13,12 @@ title('Closed Loop')
 % Starting point
 plot(0,y(1),'kx','markerSize',10)
 
-plot(t(1:epoch-1),switched_Lyap(1:epoch-1)', 'ms', 'markerSize',4)
+plot(t(1:epoch-1),using_V2(1:epoch-1)', 'ms', 'markerSize',4)
+plot(t(1:epoch-1),using_V3(1:epoch-1)', 'cs', 'markerSize',4)
 
 plot(t(1:epoch-1),target_history(1:epoch-1),'rx','markerSize',3);
 
-legend('Start','Alternative Lyapunov Funcion','Target',...
+legend('Start','Using V2','Using V3','Target',...
     'Location','southoutside','Orientation','Horizontal')
 
 plot(t(1:epoch-1),y(1:epoch-1),'bo','markerSize',2)
