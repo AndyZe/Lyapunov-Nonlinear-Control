@@ -30,19 +30,14 @@ subplot(2,2,3); axis square; hold on
 title('Lyapunov Value')
 plot(t(2:epoch),V(2:epoch),'bo','markerSize',2)
 xlabel('Time')
-ylabel('Error, V_1(y)')
+ylabel('Error, V_1(xi)')
 
 % Plot u
 subplot(2,2,4); axis square; hold on
 title('Control Effort u_1')
 xlabel('Time')
 ylabel('u_1')
-plot(t(1:epoch-1),u(1:epoch-1),'bo','markerSize',2)
-if LPF==1
-    hold on;
-    plot(t(1:epoch-1),filtered_u(1:epoch-1),'ro','markerSize',2)
-end
+plot(t(1:epoch-1),filtered_u(1:epoch-1),'bo','markerSize',2)
 ylim([1.1*u_min(1) 1.1*u_max(1)])
-legend('Unfiltered Control Effort', 'Filtered Control Effort')
 
 plot_all_states

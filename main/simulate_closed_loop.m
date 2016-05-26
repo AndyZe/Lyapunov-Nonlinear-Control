@@ -14,6 +14,9 @@ global gamma % parameter for V2 & V3
 % Record the target for plotting later.
 target_history(epoch,:) = eval(target_x);
 
+% The nonlinear change of variable
+xi = 0;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Adjust the Lyapunov damping
 % Less damping as we get closer to origin
@@ -79,21 +82,21 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % TODO: an extensible method of making these calculations
     % This is for Khalil, page 542
-    xi = x(epoch,2);  % xi = h(x) = x2
+    xi = x(epoch,2)-target_history(epoch);  % xi = h(x) = x2
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the Vi with the largest dVi_dot/du (V1, V2, or V3)
     % Use it for this epoch
-        % For V1:  xi_r*Lg_Lf_r1_h
-        % For V2:  (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
+        % dV1_dot/du = xi_r*Lg_Lf_r1_h
+        % dV2_dot/du = (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
         % For V3:  (xi_r+2*Beta2*xi_1^2*xi_r*e^V1) * Lg_Lf_r1_h
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    dV1_dot_du = xi(end)*Lg_Lf_r1_h;
+    dV1_dot_du = xi*Lg_Lf_r1_h;
     
-    dV2_dot_du = (xi(end)+2*gamma*xi(1)^2*xi(end)*exp(V(epoch))) * Lg_Lf_r1_h;
+    dV2_dot_du = (xi+2*gamma*xi(1)^2*xi(end)*exp(V(epoch))) * Lg_Lf_r1_h;
     
     % V3 is the same as V2 except a different gamma
-    dV3_dot_du = (xi(end)+2*2*gamma*xi(1)^2*xi(end)*exp(V(epoch))) * Lg_Lf_r1_h;
+    dV3_dot_du = (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch))) * Lg_Lf_r1_h;
     
     dV_dot_du = [dV1_dot_du dV2_dot_du dV3_dot_du];
         
@@ -102,10 +105,10 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     if ( max(abs(dV_dot_du))==3 ) % use V3
-        u(epoch,1) = (V_dot_target - (xi(end)+2*2*gamma*xi(1)^2*xi(end)*exp(V(epoch)))*Lf_h)/...
+        u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
             dV3_dot_du;
     elseif ( max(abs(dV_dot_du))==2 ) % use V2
-        u(epoch,1) = (V_dot_target - (xi(end)+2*2*gamma*xi(1)^2*xi(end)*exp(V(epoch)))*Lf_h)/...
+        u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
             dV2_dot_du;
     else %use V1
         u(epoch,1) = (V_dot_target - xi(1)*Lf_h)/dV1_dot_du;
@@ -167,7 +170,7 @@ epoch=epoch+1; % Count another epoch
 t(epoch) = time(end); % Update time for the next epoch
 
 y(epoch) = x_traj(end,num_states+1);
-V(epoch)= 0.5*(y(epoch)-target_history(epoch-1))^2;
+V(epoch)= 0.5*(xi*xi);
 
 for i=1 : num_states
     x(epoch,i) = x_traj(end,i);

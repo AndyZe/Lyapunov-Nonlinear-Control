@@ -21,4 +21,4 @@ end
 % Khalil, page 542
 dx(1) = -x(2);                      % x1_dot
 dx(2) = -x(1)+(1-x(1)^2)*x(2)+u;    % x2_dot
-dx(3) = -x(1)+(1-x(1)^2)*x(2)+u;    % y_dot = x2_dot
+dx(3) = dx(2);    % y_dot = x2_dot
