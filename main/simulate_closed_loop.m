@@ -106,14 +106,14 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     if ( max(abs(dV_dot_du))==1 ) % use V1
-        using_V1(epoch) = x(epoch,2);
+        using_V1(epoch) = y(epoch);
         u(epoch,1) = (V_dot_target - xi(1)*Lf_h)/dV1_dot_du;
     elseif ( max(abs(dV_dot_du))==2 ) % use V2
-        using_V2(epoch) = x(epoch,2);
+        using_V2(epoch) = y(epoch);
         u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
             dV2_dot_du;
     else %use V3
-        using_V3(epoch) = x(epoch,2);
+        using_V3(epoch) = y(epoch);
         u(epoch,1) = (V_dot_target - (xi+2*2*gamma*xi(1)^2*xi*exp(V(epoch)))*Lf_h)/...
             dV3_dot_du;
     end
