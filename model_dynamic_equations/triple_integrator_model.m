@@ -1,4 +1,4 @@
-function dx = double_integrator_model(t,x,u)
+function dx = triple_integrator_model(t,x,u)
 
 
 global num_inputs num_states
@@ -18,7 +18,8 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Khalil, page 542
-dx(1) = -x(2);                      % x1_dot
-dx(2) = -x(1)+(1-x(1)^2)*x(2)+u;    % x2_dot
-dx(3) = dx(2);    % y_dot = x2_dot
+% Slotine, page 216
+dx(1) = sin(x(2))+(x(2)+1)*x(3);    % x1_dot
+dx(2) = x(1)^5+x(3);                % x2_dot
+dx(3) = x(1)^2+u;                   % x3_dot
+dx(4) = dx(1);                      % y_dot = x1_dot

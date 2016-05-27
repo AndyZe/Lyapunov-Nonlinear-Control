@@ -1,4 +1,4 @@
-function dx = double_integrator_plant(t,x)
+function dx = triple_integrator_plant(t,x)
 
 global num_states num_inputs
 
@@ -11,16 +11,18 @@ global num_states num_inputs
 
 x1 = x(1,:);
 x2 = x(2,:);
-y1 = x(3,:);
-u1 = x(4,:);
+x3 = x(3,:);
+y1 = x(4,:);
+u1 = x(5,:);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
-% Khalil, page 542
-dx = [ x2;                  % x1_dot
- -x1+(1-x1^2)*x2+u1;        % x2_dot
- -x1+(1-x1^2)*x2+u1];       % y_dot = x2_dot
+% Slotine, page 216
+dx = [ sin(x2)+(x2+1)*x3;   % x1_dot
+ x1^5+x3;                   % x2_dot
+ x1^2+u1;                   % x3_dot
+ sin(x2)+(x2+1)*x3];        % y_dot = x1_dot
 
 % Append zeros for the inputs so vector lengths match
 for i=1:num_inputs
