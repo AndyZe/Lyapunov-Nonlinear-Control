@@ -18,11 +18,11 @@ u1 = x(5,:);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
-% Slotine, page 216
-dx = [ sin(x2)+(x2+1)*x3;   % x1_dot
- x1^5+x3;                   % x2_dot
- x1^2+u1;                   % x3_dot
- sin(x2)+(x2+1)*x3];        % y_dot = x1_dot
+% Khalil, pg. 535, DC motor
+dx = [ -x1+u1;                  % x1_dot
+ -x2-x1*x3;                     % x2_dot
+ x1*x2;                         % x3_dot
+ x1*x2];                        % y_dot = x3_dot
 
 % Append zeros for the inputs so vector lengths match
 for i=1:num_inputs

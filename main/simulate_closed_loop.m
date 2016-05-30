@@ -47,18 +47,18 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % TODO: an extensible method of making these calculations
-    % This is for Slotine, page 216
-    dh_dx = [1 0 0]; % 1x3
+    % This is for Khalil, page 535
+    dh_dx = [0 0 1]; % 1x3
     
-    f = [ sin(x(epoch,2))+(x(epoch,2)+1)*x(epoch,3); x(epoch,1)^5+x(epoch,3); x(epoch,1)^2 ]; % 3x1
+    f = [ -x(epoch,1); -x(epoch,1)-x(epoch,1)*x(epoch,3); x(epoch,1)*x(epoch,3) ]; % 3x1
     
     Lf_h = dh_dx * f; % scalar
     
-    dLf_h_dx = [0 cos(x(epoch,2))+x(epoch,3) x(epoch,2)+1]; % 1x3
+    dLf_h_dx = [x(epoch,2) x(epoch,1) 0]; % 1x3
     
     Lf_2_h = dLf_h_dx*f; % scalar
     
-    g = [0; 0; 1]; % 3x1
+    g = [1; 0; 0]; % 3x1
     
     Lg_Lf_h = dLf_h_dx * g; % scalar, dLf_h/dx*g
     
@@ -68,8 +68,8 @@ else % We're past the first epoch, go normally
     % Assume they are stable.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % TODO: an extensible method of making these calculations
-    % This is for Khalil, page 542
-    xi(1) = x(epoch,1)-target_history(epoch,1);  % xi(1) = h(x) = x1
+    % This is for Khalil, page 535
+    xi(1) = x(epoch,3);  % xi(1) = h(x) = x3
     xi(2) = Lf_h;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
