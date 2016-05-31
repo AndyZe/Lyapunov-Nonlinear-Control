@@ -40,7 +40,7 @@ plot(time(1),y_IC,'kx','markerSize',10)
 
 legend('Start')
 
-plot(time,x_traj(:,num_states+1),'bo','markerSize',2);
+plot(time,x_traj(:,num_states),'bo','markerSize',2);
 
 xlabel('Time')
 ylabel('y')

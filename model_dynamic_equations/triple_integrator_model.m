@@ -19,9 +19,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Define the system here:
-% Khalil, page 535
-% DC motor
-dx(1) = -x(1)+u;                     % x1_dot
-dx(2) = -x(2)-x(1)*x(3);             % x2_dot
-dx(3) = x(1)*x(2);                   % x3_dot
+dx(1) = -x(1);                     % x1_dot
+dx(2) = -x(2)-x(3)+u;             % x2_dot
+dx(3) = x(2);                   % x3_dot
 dx(4) = dx(3);                       % y_dot = x3_dot

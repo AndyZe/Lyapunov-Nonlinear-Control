@@ -13,7 +13,7 @@ global gamma % parameter for V2 & V3
 global using_V1 using_V2 using_V3
 
 % Record the target for plotting later.
-target_history(epoch,:) = eval(target_x);
+target_history(epoch) = eval(target_x);
 
 % The nonlinear change of variable
 xi = [0; 0];
@@ -47,18 +47,20 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % TODO: an extensible method of making these calculations
-    % This is for Khalil, page 535
     dh_dx = [0 0 1]; % 1x3
     
-    f = [ -x(epoch,1); -x(epoch,1)-x(epoch,1)*x(epoch,3); x(epoch,1)*x(epoch,3) ]; % 3x1
+    f = [ -x(epoch,1);
+        -x(epoch,2)-x(epoch,3);
+        x(epoch,1)+x(epoch,2)+x(epoch,3) ];
+    % 3x1
     
     Lf_h = dh_dx * f; % scalar
     
-    dLf_h_dx = [x(epoch,2) x(epoch,1) 0]; % 1x3
+    dLf_h_dx = [1 1 1]; % 1x3
     
     Lf_2_h = dLf_h_dx*f; % scalar
     
-    g = [1; 0; 0]; % 3x1
+    g = [0; 1; 0]; % 3x1
     
     Lg_Lf_h = dLf_h_dx * g; % scalar, dLf_h/dx*g
     
@@ -68,8 +70,7 @@ else % We're past the first epoch, go normally
     % Assume they are stable.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % TODO: an extensible method of making these calculations
-    % This is for Khalil, page 535
-    xi(1) = x(epoch,3);  % xi(1) = h(x) = x3
+    xi(1) = x(epoch,3)-target_history(epoch);  % xi(1) = h(x) = x3
     xi(2) = Lf_h;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,7 +165,7 @@ epoch=epoch+1; % Count another epoch
 
 t(epoch) = time(end); % Update time for the next epoch
 
-y(epoch) = x_traj(end,num_states+1);
+y(epoch) = x_traj(end,num_states);
 V(epoch)= 0.5*(dot(xi,xi));
 
 for i=1 : num_states

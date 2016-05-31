@@ -63,5 +63,5 @@ V_dot_target = V_dot_target_initial;
 
 % The history of targets
 global target_history
-target_history = NaN(max_sim_epochs,num_states);
+target_history = NaN(max_sim_epochs,1);
 
