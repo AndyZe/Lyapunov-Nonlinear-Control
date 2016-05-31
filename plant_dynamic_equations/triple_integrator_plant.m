@@ -21,7 +21,7 @@ u1 = x(5,:);
 dx = [ -x1 + u1*(2+x3^2)/(1+x3^2);                  % x1_dot
  x3;                     % x2_dot
  x1*x3 + u1;                         % x3_dot
- x3];                        % y_dot = x2_dot
+ x3];                        % y_dot = x2_dot = x3
 
 % Append zeros for the inputs so vector lengths match
 for i=1:num_inputs

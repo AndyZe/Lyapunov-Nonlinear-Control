@@ -166,7 +166,7 @@ epoch=epoch+1; % Count another epoch
 t(epoch) = time(end); % Update time for the next epoch
 
 y(epoch) = x_traj(end,2);
-V(epoch)= 0.5*(dot(xi,xi));
+V(epoch)= 0.5*dot(xi,xi);
 
 for i=1 : num_states
     x(epoch,i) = x_traj(end,i);
