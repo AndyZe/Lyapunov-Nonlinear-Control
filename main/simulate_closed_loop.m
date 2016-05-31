@@ -47,20 +47,20 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % TODO: an extensible method of making these calculations
-    dh_dx = [0 0 1]; % 1x3
+    dh_dx = [0 1 0]; % 1x3
     
     f = [ -x(epoch,1);
-        -x(epoch,2)-x(epoch,3);
-        x(epoch,1)+x(epoch,2)+x(epoch,3) ];
+        x(epoch,3);
+        x(epoch,1)*x(epoch,3) ];
     % 3x1
     
     Lf_h = dh_dx * f; % scalar
     
-    dLf_h_dx = [1 1 1]; % 1x3
+    dLf_h_dx = [0 0 1]; % 1x3
     
     Lf_2_h = dLf_h_dx*f; % scalar
     
-    g = [0; 1; 0]; % 3x1
+    g = [(2+x(epoch,3)^2)/(1+x(epoch,3)^2); 0; 1]; % 3x1
     
     Lg_Lf_h = dLf_h_dx * g; % scalar, dLf_h/dx*g
     
@@ -70,7 +70,7 @@ else % We're past the first epoch, go normally
     % Assume they are stable.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % TODO: an extensible method of making these calculations
-    xi(1) = x(epoch,3)-target_history(epoch);  % xi(1) = h(x) = x3
+    xi(1) = x(epoch,2)-target_history(epoch);  % xi(1) = h(x) = x2
     xi(2) = Lf_h;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,7 +165,7 @@ epoch=epoch+1; % Count another epoch
 
 t(epoch) = time(end); % Update time for the next epoch
 
-y(epoch) = x_traj(end,num_states);
+y(epoch) = x_traj(end,2);
 V(epoch)= 0.5*(dot(xi,xi));
 
 for i=1 : num_states

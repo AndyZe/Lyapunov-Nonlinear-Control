@@ -1,6 +1,6 @@
 function open_loop_sim_from_ICs
 
-global num_inputs num_states
+global num_inputs
 global x_IC y_IC start_time stop_time stiff_system target_x
 global plant_file delta_t
 
@@ -40,7 +40,7 @@ plot(time(1),y_IC,'kx','markerSize',10)
 
 legend('Start')
 
-plot(time,x_traj(:,num_states),'bo','markerSize',2);
+plot(time,x_traj(:,2),'bo','markerSize',2);
 
 xlabel('Time')
 ylabel('y')
