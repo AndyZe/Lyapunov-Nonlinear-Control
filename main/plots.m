@@ -1,7 +1,7 @@
 function plots
 
 global y target_history epoch t
-global using_V1 using_V2 using_V3 V
+global using_V1 using_V2 V
 global u_max u_min
 global filtered_u
 
@@ -15,7 +15,6 @@ plot(0,y(1),'kx','markerSize',10)
 
 plot(t(1:epoch-1),using_V1(1:epoch-1)','bs', 'markerSize',2)
 plot(t(1:epoch-1),using_V2(1:epoch-1)', 'ms', 'markerSize',2)
-plot(t(1:epoch-1),using_V3(1:epoch-1)', 'cs', 'markerSize',2)
 
 plot(t(1:epoch-1),target_history(1:epoch-1),'rx','markerSize',3);
 
