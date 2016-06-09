@@ -70,7 +70,7 @@ else % We're past the first epoch, go normally
     % Assume they are stable.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % TODO: an extensible method of making these calculations
-    xi(1) = x(epoch,2)-target_history(epoch);  % xi(1) = h(x) = x2
+    xi(1) = x(epoch,1)-target_history(epoch);  % xi(1) = h(x) = x1
     xi(2) = Lf_h;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,8 +106,9 @@ else % We're past the first epoch, go normally
             dV1_dot_du;
     else %use V2
        using_V2(epoch) = y(epoch);
-       u(epoch,1) = (V_dot_target - xi(1)*Lf_h -...
-           xi(r)*Lf_2_h) /...
+       u(epoch,1) = (V_dot_target -...
+           gamma*(2*xi(1)+x(1)^3)*exp(abs(xi(r))+V(epoch))*Lf_h-... % for xi(1)
+           (xi(r)+gamma*xi(1)^2*exp(abs(xi(r))+V(epoch))*(d_abs_xi_r_d_xi_r+xi(r)))*Lf_2_h )/... % for xi(r)
            dV2_dot_du;
     end
 end
