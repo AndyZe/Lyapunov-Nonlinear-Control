@@ -39,7 +39,7 @@ else % We're past the first epoch, go normally
     % and assume they are stable).
     % Differentiate until u appears in y^[i]
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    
     r = 2; % Relative degree of the system
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,10 +105,11 @@ else % We're past the first epoch, go normally
         u(epoch,1) = (V_dot_target - xi(1)*Lf_h - xi(r)*Lf_2_h) /...
             dV1_dot_du;
     else %use V2
-       using_V2(epoch) = y(epoch);
-       u(epoch,1) = (V_dot_target - xi(1)*Lf_h -...
-           xi(r)*Lf_2_h) /...
-           dV2_dot_du;
+        using_V2(epoch) = y(epoch);
+        u(epoch,1) = (V_dot_target -...
+            gamma*(2*xi(1)+x(1)^3)*exp(abs(xi(r))+V(epoch))*Lf_h-... % for xi(1)
+            (xi(r)+gamma*xi(1)^2*exp(abs(xi(r))+V(epoch))*(d_abs_xi_r_d_xi_r+xi(r)))*Lf_2_h )/... % for xi(r)
+            dV2_dot_du;
     end
 end
 
