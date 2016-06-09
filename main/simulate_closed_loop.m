@@ -74,7 +74,6 @@ else % We're past the first epoch, go normally
     xi(2) = Lf_h;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % TODO
     % Calculate the Vi with the largest dVi_dot/du (V1 or V2)
     % Use it for this epoch
     % dV1_dot/du = xi_r*Lg_Lf_h
