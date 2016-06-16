@@ -18,7 +18,7 @@ plot(t(1:epoch-1),using_V2(1:epoch-1)', 'ms', 'markerSize',2)
 
 plot(t(1:epoch-1),target_history(1:epoch-1),'rx','markerSize',3);
 
-legend('Start','Using V_1','Using V_2','Using V_3','Target',...
+legend('Start','Using V_1','Using V_2','Target',...
     'Location','southoutside','Orientation','Horizontal')
 
 xlabel('Time')
