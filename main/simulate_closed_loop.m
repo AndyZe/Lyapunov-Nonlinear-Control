@@ -49,14 +49,14 @@ else % We're past the first epoch, go normally
     % TODO: an extensible method of making these calculations
     dh_dx = [1 0 0]; % 1x3
     
-    f = [ x(epoch,2)+x(epoch,3);
+    f = [ x(epoch,2);
         x(epoch,3);
         0 ];
     % 3x1
     
     Lf_h = dh_dx * f; % scalar
     
-    dLf_h_dx = [x(epoch,2)+x(epoch,3) 0 0]; % 1x3
+    dLf_h_dx = [0 1 0]; % 1x3
     
     Lf_2_h = dLf_h_dx*f; % scalar
     
@@ -74,7 +74,6 @@ else % We're past the first epoch, go normally
     xi(2) = Lf_h;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % TODO
     % Calculate the Vi with the largest dVi_dot/du (V1 or V2)
     % Use it for this epoch
     % dV1_dot/du = xi_r*Lg_Lf_h
@@ -170,6 +169,4 @@ t(epoch) = time(end); % Update time for the next epoch
 y(epoch) = x_traj(end,1); % y=x1
 V(epoch)= 0.5*dot(xi,xi);
 
-for i=1 : num_states
-    x(epoch,i) = x_traj(end,i);
-end
+x(epoch,1:num_states) = x_traj(end,1:num_states);
