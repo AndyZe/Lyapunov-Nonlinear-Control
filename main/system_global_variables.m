@@ -16,6 +16,9 @@ epoch=1;
 global x % Current coordinates of the state variables
 x=zeros(max_sim_epochs,num_states); % Preallocate
 
+global dV_dot_du % Holds the denominators of V1 and V2
+dV_dot_du = zeros(max_sim_epochs,2);
+
 % Initialize the first two rows to ICs
 for i=1:num_states
     x(1,i)=x_IC(i);

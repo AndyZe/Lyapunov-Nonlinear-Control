@@ -9,8 +9,8 @@ global LPF % Apply LPF if ==1
 global filtered_u
 global c % LPF parameter
 global integral_gain
-global gamma % parameter for V2
 global using_V1 using_V2
+global dV_dot_du
 
 % Record the target for plotting later.
 target_history(epoch) = eval(target_x);
@@ -76,32 +76,20 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the Vi with the largest dVi_dot/du (V1 or V2)
     % Use it for this epoch
-    % dV1_dot/du = xi_r*Lg_Lf_h
-    % dV2_dot/du = (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_h
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     dV1_dot_du = xi(r)*Lg_Lf_h;
     
-    % Calculate the partial derivative involving the absolute value
-    % -1, 0, or 1
-    if xi(r)<0
-        d_abs_xi_r_d_xi_r = -1;
-    elseif xi(r)>0
-        d_abs_xi_r_d_xi_r = 1;
-    else
-        d_abs_xi_r_d_xi_r = 0;
-    end
-    
     dV2_dot_du = (xi(r)*(0.9+0.1*abs(xi(r)-1)) + 0.1*V(epoch)*sign( xi(r)-1 ) )*Lg_Lf_h;
     
-    %dV2_dot_du = (xi(r)+gamma*xi(1)^2*exp(abs(xi(r))+V(epoch))*(d_abs_xi_r_d_xi_r + xi(r))) * Lg_Lf_h;
-    
-    dV_dot_du = [dV1_dot_du dV2_dot_du];
+    dV_dot_du(epoch,:) = [dV1_dot_du dV2_dot_du];
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the stabilizing u
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    if ( max(abs(dV_dot_du))==1 ) % use V1
+    [M,I] = max(abs(dV_dot_du));
+    
+    if ( I==1 ) % use V1
         using_V1(epoch) = y(epoch);
         u(epoch,1) = (V_dot_target - xi(1)*Lf_h - xi(r)*Lf_2_h) /...
             dV1_dot_du;
