@@ -39,7 +39,7 @@ else % We're past the first epoch, go normally
     % and assume they are stable).
     % Differentiate until u appears in y^[i]
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    
     r = 2; % Relative degree of the system
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,22 +76,10 @@ else % We're past the first epoch, go normally
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Calculate the Vi with the largest dVi_dot/du (V1 or V2)
     % Use it for this epoch
-    % dV1_dot/du = xi_r*Lg_Lf_h
-    % dV2_dot/du = (xi_r+2*Beta1*xi_1^2*xi_r*e^V1) * Lg_Lf_h
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     dV1_dot_du = xi(r)*Lg_Lf_h;
     
-    % Calculate the partial derivative involving the absolute value
-    % -1, 0, or 1
-    if xi(r)<0
-        d_abs_xi_r_d_xi_r = -1;
-    elseif xi(r)>0
-        d_abs_xi_r_d_xi_r = 1;
-    else
-        d_abs_xi_r_d_xi_r = 0;
-    end
-    
-    dV2_dot_du = (xi(r)+gamma*xi(1)^2*exp(abs(xi(r))+V(epoch))*(d_abs_xi_r_d_xi_r + xi(r))) * Lg_Lf_h;
+    dV2_dot_du = (xi(r)*(0.9+0.1*abs(xi(r)-1)) + 0.1*V(epoch)*sign( xi(r)-1 ) )*Lg_Lf_h;
     
     dV_dot_du = [dV1_dot_du dV2_dot_du];
     
@@ -103,12 +91,13 @@ else % We're past the first epoch, go normally
         using_V1(epoch) = y(epoch);
         u(epoch,1) = (V_dot_target - xi(1)*Lf_h - xi(r)*Lf_2_h) /...
             dV1_dot_du;
+        display('using V1')
     else %use V2
-       using_V2(epoch) = y(epoch);
-       u(epoch,1) = (V_dot_target -...
-           gamma*(2*xi(1)+x(1)^3)*exp(abs(xi(r))+V(epoch))*Lf_h-... % for xi(1)
-           (xi(r)+gamma*xi(1)^2*exp(abs(xi(r))+V(epoch))*(d_abs_xi_r_d_xi_r+xi(r)))*Lf_2_h )/... % for xi(r)
-           dV2_dot_du;
+        using_V2(epoch) = y(epoch);
+        u(epoch,1) = (V_dot_target -...
+            xi(1)*(0.9+0.1*abs(xi(r)-1))*Lf_h-... % for xi(1)
+            (xi(r)*(0.9+0.1*abs(xi(r)-1) )+0.1*V(epoch)*sign(xi(r)-1))*Lf_2_h )/... % for xi(r)
+            dV2_dot_du;
     end
 end
 
