@@ -11,6 +11,7 @@ global c % LPF parameter
 global integral_gain
 global using_V1 using_V2
 global dV_dot_du
+global prev_dV1_du_sign
 
 % Record the target for plotting later.
 target_history(epoch) = eval(target_x);
@@ -106,19 +107,29 @@ end
 % Apply LPF
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if LPF == 1 % if user requested it
-    if epoch>2  % Let some data build up so we don't get (-) indices
-        
-        filtered_u(epoch) = (1/(1+c^2+1.414*c))*(...
-            u(epoch-2)+2*u(epoch-1)+u(epoch)-...
-            (c^2-1.414*c+1)*filtered_u(epoch-2)-...
-            (-2*c^2+2)*filtered_u(epoch-1)...
-            );
-    else
-        filtered_u(epoch) = u(epoch);
-    end
+if epoch==1 % Skip the first epoch to let data accumulate
+    prev_dV1_du_sign = 1;
+
 else
-    filtered_u(epoch) = u(epoch);
+
+    if sign(dV1_dot_du) == prev_dV1_du_sign %the sign did not change -- we do not need an immediate response
+        if LPF == 1 % if user requested it
+            if epoch>2  % Let some data build up so we don't get (-) indices
+                
+                filtered_u(epoch) = (1/(1+c^2+1.414*c))*(...
+                    u(epoch-2)+2*u(epoch-1)+u(epoch)-...
+                    (c^2-1.414*c+1)*filtered_u(epoch-2)-...
+                    (-2*c^2+2)*filtered_u(epoch-1)...
+                    );
+            else
+                filtered_u(epoch) = u(epoch);
+            end
+        else
+            filtered_u(epoch) = u(epoch);
+        end
+    end
+    
+    prev_dV1_du_sign = sign(dV1_dot_du);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

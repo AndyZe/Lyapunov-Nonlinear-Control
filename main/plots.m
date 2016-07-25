@@ -42,12 +42,13 @@ ylim([1.1*u_min(1) 1.1*u_max(1)])
 
 % Plot the denominators of V1 and V2
 figure
+set(gcf,'color','w')
 title('Values of the denominators')
 plot(t(1:epoch-1),dV_dot_du(1:epoch-1,1),'b*','markerSize',2)
 hold on
 plot(t(1:epoch-1),dV_dot_du(1:epoch-1,2),'kx','markerSize',2)
 legend('Denominator for V_1','Denominator for V_2')
 xlabel('Time')
-ylabel('Value in the denominator')
+ylabel('Value of the denominator')
 
 plot_all_states
