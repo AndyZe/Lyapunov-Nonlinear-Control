@@ -1,4 +1,4 @@
-function dx = triple_integrator_model(t,x,u)
+function dx = double_integrator_model(t,x,u)
 
 
 global num_inputs num_states
