@@ -144,7 +144,6 @@ else % We're past the first epoch, go normally
         % Check for NaN (caused by D_star(1)==0).
         % It means the system is likely uncontrollable.
         if ~isfinite( u(epoch,:) )
-            u(epoch,:)= zeros(num_inputs,1);
             disp('The system is likely uncontrollable at this point.')
         end
     end
